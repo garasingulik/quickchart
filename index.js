@@ -1,5 +1,6 @@
-const path = require('path');
-
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-restricted-globals */
 const express = require('express');
 const javascriptStringify = require('javascript-stringify').stringify;
 const qs = require('qs');
@@ -49,23 +50,19 @@ if (process.env.RATE_LIMIT_PER_MIN) {
     onLimitReached: req => {
       logger.info('User hit rate limit!', req.ip);
     },
-    keyGenerator: req => {
-      return req.headers['x-forwarded-for'] || req.ip;
-    },
+    keyGenerator: req => req.headers['x-forwarded-for'] || req.ip,
   });
   app.use('/chart', limiter);
 }
 
 app.get('/', (req, res) => {
-  res.send(
-    'QuickChart is running!<br><br>If you are using QuickChart commercially, please consider <a href="https://quickchart.io/pricing/">purchasing a license</a> to support the project.',
-  );
+  res.json({ message: 'Running' });
 });
 
 app.post('/telemetry', (req, res) => {
   const chartCount = parseInt(req.body.chartCount, 10);
   const qrCount = parseInt(req.body.qrCount, 10);
-  const pid = req.body.pid;
+  const { pid } = req.body;
 
   if (chartCount && !isNaN(chartCount)) {
     telemetry.receive(pid, 'chartCount', chartCount);
@@ -213,14 +210,15 @@ function handleGChart(req, res) {
     }
     handleGraphviz(req, res, req.query.chl, opts);
     return;
-  } else if (req.query.cht === 'qr') {
+  }
+  if (req.query.cht === 'qr') {
     const size = parseInt(req.query.chs.split('x')[0], 10);
     const qrData = req.query.chl;
     const chldVals = (req.query.chld || '').split('|');
     const ecLevel = chldVals[0] || 'L';
     const margin = chldVals[1] || 4;
     const qrOpts = {
-      margin: margin,
+      margin,
       width: size,
       errorCorrectionLevel: ecLevel,
     };

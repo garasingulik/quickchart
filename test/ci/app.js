@@ -1,7 +1,6 @@
 /* eslint-env node, mocha */
 
 const assert = require('assert');
-const crypto = require('crypto');
 
 const ColorThief = require('color-thief');
 const imageSize = require('image-size');

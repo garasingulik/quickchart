@@ -3,7 +3,7 @@
 const assert = require('assert');
 const imageSize = require('image-size');
 
-const { renderQr, DEFAULT_QR_SIZE } = require('../../lib/qr');
+const { renderQr } = require('../../lib/qr');
 
 describe('qr code rendering', () => {
   it('renders a basic QR svg', async () => {

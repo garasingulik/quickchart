@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-shadow */
+/* eslint-disable new-cap */
 const Jimp = require('jimp');
 const qrReader = require('qrcode-reader');
 
